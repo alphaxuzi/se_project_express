@@ -12,9 +12,9 @@ const getItems = (req, res) => {
     .then((items) => res.status(200).send(items))
     .catch((err) => {
       if (err.name === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND).send({ message: "Item not found" });
+         res.status(NOT_FOUND).send({ message: "Item not found" });
       } else if (err.name === "ValidationError") {
-        return res.status(BAD_REQUEST).send({ message: err.message });
+         res.status(BAD_REQUEST).send({ message: err.message });
       }
       return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
     });
@@ -32,9 +32,9 @@ const createItem = (req, res) => {
     })
     .catch((err) => {
       if (err.name === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND).send({ message: "Item not found" });
+         res.status(NOT_FOUND).send({ message: "Item not found" });
       } else if (err.name === "ValidationError") {
-        return res.status(BAD_REQUEST).send({ message: err.message });
+         res.status(BAD_REQUEST).send({ message: err.message });
       }
       return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
     });
@@ -49,7 +49,7 @@ const deleteItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND).send({ message: "Item not found" });
+         res.status(NOT_FOUND).send({ message: "Item not found" });
       }
       return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
     });
@@ -68,7 +68,7 @@ const likeItem = (req, res) =>
     .catch((err) => {
       console.error(err);
       if (err.message === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND).send({ message: "Item not found" });
+         res.status(NOT_FOUND).send({ message: "Item not found" });
       }
       return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
     });
@@ -85,7 +85,7 @@ const dislikeItem = (req, res) =>
     })
     .catch((err) => {
       if (err.message === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND).send({ message: "Item not found" });
+         res.status(NOT_FOUND).send({ message: "Item not found" });
       }
       return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
     });

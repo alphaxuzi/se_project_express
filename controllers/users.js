@@ -1,5 +1,9 @@
 const User = require("../models/user");
-const { INTERNAL_SERVER_ERROR, BAD_REQUEST, NOT_FOUND } = require("../utils/errors");
+const {
+  INTERNAL_SERVER_ERROR,
+  BAD_REQUEST,
+  NOT_FOUND,
+} = require("../utils/errors");
 
 // Get /users
 
@@ -19,9 +23,9 @@ const createUser = (req, res) => {
     .then((user) => res.status(201).send(user))
     .catch((err) => {
       if (err.name === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND).send({ message: "Item not found" });
+        res.status(NOT_FOUND).send({ message: "Item not found" });
       } else if (err.name === "ValidationError") {
-        return res.status(BAD_REQUEST).send({ message: err.message });
+        res.status(BAD_REQUEST).send({ message: err.message });
       }
       return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
     });
@@ -34,9 +38,9 @@ const getUser = (req, res) => {
     .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.name === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND).send({ message: "Item not found" });
+        res.status(NOT_FOUND).send({ message: "Item not found" });
       } else if (err.name === "ValidationError") {
-        return res.status(BAD_REQUEST).send({ message: err.message });
+        res.status(BAD_REQUEST).send({ message: err.message });
       }
       return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
     });

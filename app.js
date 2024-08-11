@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const mainRouter = require("./routes/index.js")
+const mainRouter = require("./routes/index")
 
 const app = express();
 const { PORT = 3001 } = process.env;
@@ -27,6 +27,6 @@ app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`)
 })
 
-module.exports.createClothingItem = (req, res) => {
-  console.log(req.user._id);// _id will become accessible
+module.exports.createClothingItem = (req) => {
+  console.log(req.user._id);
 };
