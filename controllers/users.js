@@ -10,9 +10,10 @@ const {
 const getUsers = (req, res) => {
   User.find({})
     .then((users) => res.status(200).send(users))
-    .catch((err) => {
-      console.error(err);
-      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
+    .catch(() => {
+      return res
+        .status(INTERNAL_SERVER_ERROR)
+        .send({ message: "An error has occurred on the server" });
     });
 };
 
@@ -22,10 +23,8 @@ const createUser = (req, res) => {
   User.create({ name, avatar })
     .then((user) => res.status(201).send(user))
     .catch((err) => {
-      if (err.name === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND).send({ message: "Item not found" });
-      } else if (err.name === "ValidationError") {
-        return res.status(BAD_REQUEST).send({ message: err.message });
+      if (err.name === "ValidationError") {
+        return res.status(BAD_REQUEST).send({ message: "Invalid data" });
       }
       return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
     });
@@ -39,8 +38,12 @@ const getUser = (req, res) => {
     .catch((err) => {
       if (err.name === "DocumentNotFoundError") {
         return res.status(NOT_FOUND).send({ message: "Item not found" });
-      } else if (err.name === "ValidationError") {
+      }
+       if (err.name === "ValidationError") {
         return res.status(BAD_REQUEST).send({ message: err.message });
+      }
+       if (err.name === "CastError") {
+        return res.status(BAD_REQUEST).send({ message: "Invalid data" });
       }
       return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
     });

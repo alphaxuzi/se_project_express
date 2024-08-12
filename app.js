@@ -10,11 +10,6 @@ mongoose.connect('mongodb://127.0.0.1:27017/wtwr_db').then(() => {
 }).catch(console.error());
 
 app.use(express.json())
-app.use('/', mainRouter);
-
-app.get('/', (req, res) => {
-  res.send('hello')
-});
 
 app.use((req, res, next) => {
   req.user = {
@@ -23,10 +18,8 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use('/', mainRouter);
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`)
 })
-
-module.exports.createClothingItem = (req) => {
-  console.log(req.user._id);
-};
