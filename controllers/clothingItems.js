@@ -1,6 +1,7 @@
 const ClothingItem = require("../models/clothingItem");
 const {
   INTERNAL_SERVER_ERROR,
+  FORBIDDEN,
   BAD_REQUEST,
   NOT_FOUND,
 } = require("../utils/errors");
@@ -33,9 +34,15 @@ const createItem = (req, res) => {
 
 const deleteItem = (req, res) => {
   const { itemId } = req.params;
+  const userId = req.user._id;
 
-  ClothingItem.findByIdAndDelete(itemId)
-    .orFail()
+  ClothingItem.findById(itemId)
+    .orFail().then((item) => {
+      if (item.owner.toString() !== userId.toString()) {
+        return res.status(FORBIDDEN).send({ message: 'You do not have permission' });
+      }
+      return ClothingItem.findByIdAndDelete(itemId);
+    })
     .then(() => res.status(200).send({ message: "Item deleted" }))
     .catch((err) => {
       if (err.name === "DocumentNotFoundError") {
