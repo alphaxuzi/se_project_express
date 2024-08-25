@@ -37,13 +37,17 @@ const deleteItem = (req, res) => {
   const userId = req.user._id;
 
   ClothingItem.findById(itemId)
-    .orFail().then((item) => {
+    .orFail()
+    .then((item) => {
       if (item.owner.toString() !== userId.toString()) {
-        return res.status(FORBIDDEN).send({ message: 'You do not have permission' });
+        return res
+          .status(FORBIDDEN)
+          .send({ message: "You do not have permission" });
       }
-      return ClothingItem.findByIdAndDelete(itemId);
+      return ClothingItem.findByIdAndDelete(itemId).then(() =>
+        res.status(200).send({ message: "Item deleted" })
+      );
     })
-    .then(() => res.status(200).send({ message: "Item deleted" }))
     .catch((err) => {
       if (err.name === "DocumentNotFoundError") {
         return res.status(NOT_FOUND).send({ message: "Item not found" });
