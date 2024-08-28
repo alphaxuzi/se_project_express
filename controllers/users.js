@@ -80,7 +80,13 @@ const createUser = (req, res) => {
       return bcrypt.hash(password, 8);
     })
     .then((hashedPassword) => {
-       User.create({ name, avatar, email, password: hashedPassword });
+      return User.create({ name, avatar, email, password: hashedPassword });
+    })
+    .then((user) => {
+      const userWithoutPassword = user.toObject();
+      delete userWithoutPassword.password;
+
+      res.status(201).send(userWithoutPassword);
     })
     .catch((err) => {
       if (err.name === "ValidationError") {
@@ -92,8 +98,6 @@ const createUser = (req, res) => {
       return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
     });
 };
-
-
 
 module.exports = {
   createUser,
