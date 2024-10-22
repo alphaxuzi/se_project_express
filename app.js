@@ -5,6 +5,7 @@ const mainRouter = require("./routes/index");
 const errorHandler = require('./middlewares/error-handling');
 const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+require('dotenv').config();
 
 const app = express();
 const { PORT = 3001 } = process.env;
@@ -26,5 +27,5 @@ app.use(errors());
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-  // console.log(`Server is running on http://localhost:${PORT}`)
+  console.log(`Server is running on http://localhost:${PORT}`)
 })

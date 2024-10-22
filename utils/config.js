@@ -1,2 +1,4 @@
+const {JWT_SECRET = 'sungodnika' } = process.env;
 
-module.exports = { JWT_SECRET: 'sungodnika'}
+
+module.exports = { JWT_SECRET }
