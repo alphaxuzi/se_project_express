@@ -93,7 +93,7 @@ const createUser = (req, res, next) => {
       if (err.code === 11000) {
         next(new ConflictError("Something went wrong"));
       }
-      next();
+      next(err);
     });
 };
 
