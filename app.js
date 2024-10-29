@@ -16,7 +16,11 @@ mongoose.connect('mongodb://127.0.0.1:27017/wtwr_db').then(() => {
 
 app.use(express.json())
 
-app.use(cors());
+const corsOptions = {
+  origin: 'https://alphawtwr.crabdance.com',
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 app.use(requestLogger);
 app.use('/', mainRouter);
