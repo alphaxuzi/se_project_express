@@ -38,6 +38,16 @@ const authenticationSchema = {
   }),
 };
 
+const validateUpdateProfile = {
+  user: Joi.object().keys({
+    name: Joi.string().min(2).max(30).required(),
+    avatar: Joi.string().required().custom(validateURL).messages({
+      'string.empty': 'The "avatar" field must be filled in',
+      'string.uri': 'the "avatar" field must be a valid url',
+    }),
+  })
+}
+
 const idSchema = Joi.string().length(24).hex().required();
 
-module.exports = {clothingItemSchema, createUserSchema, authenticationSchema, idSchema}
+module.exports = {clothingItemSchema, createUserSchema, authenticationSchema, validateUpdateProfile, idSchema}
